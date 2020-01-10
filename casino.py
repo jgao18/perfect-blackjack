@@ -291,19 +291,19 @@ def checkAndLogInitialCards():
     card2 = getCardValue(Pag.screenshotAndReturnSecondCard(), 2)[0]
 
     N = 8
-    if getCardValue(Pag.screenshotAndReturnDealerCard(), 0)[1] != 0:
+    if getCardValue(Pag.screenshotAndReturnDealerCard(), 0)[1] >= 1.5:
         Pag.screenshotAndReturnDealerCard().save("C:\\git\\bj\\newfound\\dealer\\" + ''.join(random.choices(string.ascii_uppercase + string.digits, k=N)) + ".png")
         print("Found a new dealer card with a diff of " + str(getCardValue(Pag.screenshotAndReturnDealerCard(), 0)[1]) + ", exiting.")
         os._exit(0)
 
-    if getCardValue(Pag.screenshotAndReturnFirstCard(), 1)[1] != 0:
+    if getCardValue(Pag.screenshotAndReturnFirstCard(), 1)[1] >= 1.5:
         Pag.screenshotAndReturnFirstCard().save("C:\\git\\bj\\newfound\\first\\" + ''.join(random.choices(string.ascii_uppercase + string.digits, k=N)) + ".png")
         print("Found a new first card with a diff of " + getCardValue(Pag.screenshotAndReturnFirstCard(), 1)[1] + ", exiting.")
         os._exit(0)
 
-    if getCardValue(Pag.screenshotAndReturnSecondCard(), 2)[1] != 0:
+    if getCardValue(Pag.screenshotAndReturnSecondCard(), 2)[1] >= 1.5:
         Pag.screenshotAndReturnSecondCard().save("C:\\git\\bj\\newfound\\second\\" + ''.join(random.choices(string.ascii_uppercase + string.digits, k=N)) + ".png")
-        print("Found a new second card, exiting.")
+        print("Found a new second card with a diff of " + str(getCardValue(Pag.screenshotAndReturnSecondCard(), 2)[1]) + ", exiting.")
         os._exit(0)
 
 def clickBasedOnCards(currentHand, dealerCard, doNotSplit):
@@ -370,7 +370,8 @@ def main():
     now = datetime.datetime.now()
     print("Ran at " + str(now.hour) + ":" + str(now.minute) + ":" + str(now.second))
     while play:
-        print("----------- STARTING NEW ROUND: " + str(roundCount) + " --------------")
+        now = datetime.datetime.now()
+        print("----------- STARTING NEW ROUND: " + str(roundCount) + " at " + str(now.hour) + ":" + str(now.minute) + ":" + str(now.second) + " --------------")
         currentHand = []
         handNumber = 1
 
@@ -516,6 +517,7 @@ def main():
                 del currentHand[:]
                 currentHand.append(firstCard)
 
+                sleepRandom(3.5, 4.5)
                 secondCardImage = Pag.screenshotAndReturnSecondCard()
                 secondCard, imageDiff = getCardValue(secondCardImage, 2)
                 currentHand.append(secondCard)
